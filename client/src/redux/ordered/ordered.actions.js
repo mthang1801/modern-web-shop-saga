@@ -1,15 +1,15 @@
-import orderedActionTypes from "./ordered.styles";
+import orderedActionTypes from "./ordered.types";
 import { firestore, auth } from "../../utils/firebase";
-const fetchOrderedListStart = () => ({
+export const fetchOrderedListStart = () => ({
   type: orderedActionTypes.FETCH_ORDERED_LIST_START,
 });
 
-const fetchOrderedListSuccess = (orderedList) => ({
+export const fetchOrderedListSuccess = (orderedList) => ({
   type: orderedActionTypes.FETCH_ORDERED_LIST_SUCCESS,
   payload: orderedList,
 });
 
-const fetchOrderedListFail = (error) => ({
+export const fetchOrderedListFail = (error) => ({
   type: orderedActionTypes.FETCH_ORDERED_LIST_FAIL,
   payload: error.message,
 });

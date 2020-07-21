@@ -132,9 +132,9 @@ class SignUp extends React.Component{
   render(){    
     const {formIsValid} = this.state; 
     let formInputArray = []  ; 
-    Object.keys(this.state.controls).map( controlItem => {
-      formInputArray.push(this.state.controls[controlItem]);
-    })    
+    Object.keys(this.state.controls).map( controlItem => 
+       formInputArray.push(this.state.controls[controlItem])
+    )    
     return (
       <CustomFormContainer onSubmit={this.handleSubmitSignUpForm}>
         <FormHeader>

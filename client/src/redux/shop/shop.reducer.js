@@ -12,6 +12,7 @@ const shopReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         loading: true,
+        error: undefined,
       };
     case shopActionTypes.FETCH_COLLECTIONS_SUCCESS:
       return {

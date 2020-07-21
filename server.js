@@ -6,6 +6,7 @@ const compression = require("compression");
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
 const stripe = require("stripe")(process.env.STRIPE_API_KEY);
+
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //x-www-form-urlencoded
@@ -30,7 +31,6 @@ app.post("/payment", async (req, res, next) => {
       amount: req.body.amount,
       currency: "usd",
     };
-
     stripe.charges.create(body, (stripeErr, stripeRes) => {
       if (stripeErr) {
         return res.status(500).json({ error: stripeErr });

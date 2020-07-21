@@ -19,11 +19,11 @@ firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 //Google Authentication Provider
-const GoogleProvider = new firebase.auth.GoogleAuthProvider();
+export const GoogleProvider = new firebase.auth.GoogleAuthProvider();
 GoogleProvider.setCustomParameters({ prompt: "select_account" });
 export const signInWithGoogle = () => auth.signInWithPopup(GoogleProvider);
 //Facebook Authentication Provider
-const FacebookProvider = new firebase.auth.FacebookAuthProvider();
+export const FacebookProvider = new firebase.auth.FacebookAuthProvider();
 FacebookProvider.setCustomParameters({});
 FacebookProvider.addScope("email");
 export const signInWithFacebook = () => auth.signInWithPopup(FacebookProvider);
@@ -32,7 +32,7 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     return null;
   }
   const userRef = firestore.doc(`/users/${userAuth.uid}`);
-  const snapShot = userRef.get();
+  const snapShot = await userRef.get();
   if (!snapShot.exists) {
     const { displayName, email, imageUrl } = userAuth;
     try {
@@ -116,11 +116,23 @@ export const addCartItemsToOrderedList = async (cartItems, totalPrice) => {
 export const resetAccount = (email) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const res = await auth.sendPasswordResetEmail(email);
+      await auth.sendPasswordResetEmail(email);
       resolve(true);
     } catch (error) {
       reject(error);
     }
+  });
+};
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubcribe = auth.onAuthStateChanged((userAuth) => {
+      unsubcribe();
+      if (!userAuth) {
+        return resolve(null);
+      }
+      resolve(userAuth);
+    }, reject);
   });
 };
 

@@ -1,24 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { default as Directory } from "../../components/directory-menu/directory-menu.container";
 import { connect } from "react-redux";
 import { HomePageContainer } from "./home.styles";
-import { fetchDirectory } from "../../redux/directory/directory.actions";
-class HomePage extends React.Component {
-  componentDidMount() {
-    const { fetchDirectory } = this.props;
-    fetchDirectory();
-  }
-  render() {
-    return (
-      <HomePageContainer>
-        <Directory />
-      </HomePageContainer>
-    );
-  }
-}
+import { fetchDirectoryStart } from "../../redux/directory/directory.actions";
+
+const HomePage = ({ fetchDirectoryStart }) => {
+  useEffect(() => {
+    fetchDirectoryStart();
+  }, [fetchDirectoryStart]);
+  return (
+    <HomePageContainer>
+      <Directory />
+    </HomePageContainer>
+  );
+};
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchDirectory: () => dispatch(fetchDirectory()),
+  fetchDirectoryStart: () => dispatch(fetchDirectoryStart()),
 });
 
 export default connect(null, mapDispatchToProps)(HomePage);

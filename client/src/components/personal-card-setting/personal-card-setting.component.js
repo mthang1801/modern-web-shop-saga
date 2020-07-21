@@ -4,13 +4,17 @@ import {
   PersonalCardItem,
 } from "./personal-card-setting.styles";
 import { FaCog, FaSignOutAlt } from "react-icons/fa";
-import { auth } from "../../utils/firebase";
 import { connect } from "react-redux";
 import {
   setCardPersonToggle,
   setCardPersonClose,
 } from "../../redux/card-person/card-person.actions";
-const PersonalCardSetting = ({ setCardPersonToggle, setCardPersonClose }) => {
+import { signOutStart } from "../../redux/user/user.actions";
+const PersonalCardSetting = ({
+  setCardPersonToggle,
+  setCardPersonClose,
+  signOutStart,
+}) => {
   const cardRef = useRef(null);
   useEffect(() => {
     function handleClickOutside(e) {
@@ -27,11 +31,7 @@ const PersonalCardSetting = ({ setCardPersonToggle, setCardPersonClose }) => {
         <FaCog />
         Setting
       </PersonalCardItem>
-      <PersonalCardItem
-        onClick={() => {
-          auth.signOut();
-        }}
-      >
+      <PersonalCardItem onClick={signOutStart}>
         <FaSignOutAlt /> Signout
       </PersonalCardItem>
     </PersonalCardSettingContainer>
@@ -40,5 +40,6 @@ const PersonalCardSetting = ({ setCardPersonToggle, setCardPersonClose }) => {
 const mapDispatchToProps = (dispatch) => ({
   setCardPersonToggle: () => dispatch(setCardPersonToggle()),
   setCardPersonClose: () => dispatch(setCardPersonClose()),
+  signOutStart: () => dispatch(signOutStart()),
 });
 export default connect(null, mapDispatchToProps)(PersonalCardSetting);

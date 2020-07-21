@@ -11,10 +11,7 @@ import CartItem from "../cart-item/cart-item.component";
 import { withRouter } from "react-router-dom";
 import { closeCart } from "../../redux/cart/cart.actions";
 import { createStructuredSelector } from "reselect";
-import {
-  selectCartShow,
-  selectCartItems,
-} from "../../redux/cart/cart.selectors";
+import { selectCartItems } from "../../redux/cart/cart.selectors";
 const CartDropdown = ({ cartItems, history, match, closeCart }) => {
   const cardDropdownRef = useRef(null);
   useEffect(() => {
@@ -25,7 +22,7 @@ const CartDropdown = ({ cartItems, history, match, closeCart }) => {
     }
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
-  }, [cardDropdownRef]);
+  }, [cardDropdownRef, closeCart]);
   return (
     <CartDropdownContainer ref={cardDropdownRef}>
       <CartDropdownItems>

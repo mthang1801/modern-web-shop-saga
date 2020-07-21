@@ -2,9 +2,8 @@ import React, { lazy, Suspense, useEffect } from "react";
 import Header from "./components/header/header.component";
 import { GlobalStyled, Container } from "./global.styles";
 import { Switch, Route } from "react-router-dom";
-import { auth, createUserProfileDocument } from "./utils/firebase";
 import { connect } from "react-redux";
-import { setCurrentUser } from "./redux/user/user.actions";
+import { setCurrentUser, checkUserSession } from "./redux/user/user.actions";
 import SideDrawer from "./components/navigation/side-drawer/side-drawer.component";
 import Spinner from "./components/spinner/spinner.component";
 import ErrorBoundary from "./components/error-boundary/error-boundary.component";
@@ -13,21 +12,10 @@ const Shoppage = lazy(() => import("./pages/shop/shop.component"));
 const Orderedpage = lazy(() => import("./pages/ordered/ordered.component"));
 const AuthPage = lazy(() => import("./pages/auth/auth.component"));
 const CheckoutPage = lazy(() => import("./pages/checkout/checkout.component"));
-const App = ({ setCurrentUser, showDrawer }) => {
+const App = ({ setCurrentUser, checkUserSession }) => {
   useEffect(() => {
-    const unSubcribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
-        userRef.onSnapshot((snapshot) => {
-          const currentUser = { id: snapshot.id, ...snapshot.data() };
-          setCurrentUser(currentUser);
-        });
-        return;
-      }
-      setCurrentUser(userAuth);
-    });
-    return () => unSubcribeFromAuth();
-  }, [setCurrentUser]);
+    checkUserSession();
+  }, [checkUserSession]);
 
   return (
     <div>
@@ -54,5 +42,6 @@ const App = ({ setCurrentUser, showDrawer }) => {
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+  checkUserSession: () => dispatch(checkUserSession()),
 });
 export default connect(null, mapDispatchToProps)(App);

@@ -1,5 +1,4 @@
-import React, {useContext} from "react";
-import drawerContext from "../../../contexts/drawer/drawer.context";
+import React from "react";
 import CartIcon from "../../cart-icon/cart-icon.component";
 import { CustomLink } from "../../custom-link/custom-link.styles";
 import { Option } from "./navigation-items.styles";
@@ -32,7 +31,7 @@ const NavigationItems = ({
 }) => { 
   return (
     <React.Fragment>
-      <Option>
+      {onMobile && <Option>
         <CustomLink
           to="/"
           icon={<FaHome />}
@@ -41,7 +40,8 @@ const NavigationItems = ({
         >
           Home
         </CustomLink>
-      </Option>
+      </Option>}
+      
       <Option>
         <CustomLink
           to="/shop"

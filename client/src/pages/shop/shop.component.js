@@ -1,13 +1,14 @@
 import React, { useEffect, lazy, Suspense } from "react";
 import { Switch, Route } from "react-router-dom";
-import { fetchCollections } from "../../redux/shop/shop.actions";
 import { connect } from "react-redux";
 import Spinner from "../../components/spinner/spinner.component";
+import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
 const CollectionsOverview = lazy(() =>
   import("../../components/collections-overview/collections-overview.container")
 );
+
 const CollectionPage = lazy(() => import("../collection/collection.container"));
-const Shoppage = ({ match, fetchCollections, isLoading }) => {
+const Shoppage = ({ match, isLoading, fetchCollectionsStart }) => {
   useEffect(() => {
     if (match.isExact) {
       window.scrollTo({
@@ -23,8 +24,8 @@ const Shoppage = ({ match, fetchCollections, isLoading }) => {
   }, [match.isExact]);
 
   useEffect(() => {
-    fetchCollections();
-  }, [fetchCollections]);
+    fetchCollectionsStart();
+  }, [fetchCollectionsStart]);
 
   return (
     <Suspense fallback={<Spinner />}>
@@ -40,7 +41,7 @@ const Shoppage = ({ match, fetchCollections, isLoading }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchCollections: () => dispatch(fetchCollections()),
+  fetchCollectionsStart: () => dispatch(fetchCollectionsStart()),
 });
 
 export default connect(null, mapDispatchToProps)(Shoppage);

@@ -8,8 +8,7 @@ import { selectCartItems } from "../../redux/cart/cart.selectors";
 import { createStructuredSelector } from "reselect";
 import { addCartItemsToOrderedList } from "../../utils/firebase";
 const StripeButton = ({ price, clearCartItems, currentUser, cartItems }) => {
-  const publish_key =
-    "pk_test_51H2ox9KqyLpFyVsNQPr7V1eFkeRTtEtdG7vgXAlM4E3UiDJ9U8MXv5RtLoo2qLMW6qckNvDbwf5PcZXmNfbAJhQd00zyZ5D9ir";
+  const publish_key = "pk_test_GqeDNGLAbXcAnQ8xs8OAzKcW00uS9xIftb";
   const priceForStripe = price * 1000; //based on cents
   const onToken = async (token) => {
     try {

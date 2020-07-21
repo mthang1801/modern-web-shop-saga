@@ -1,4 +1,4 @@
-import React, {useEffect, useContext, useRef} from "react";
+import React, { useContext} from "react";
 import CartDropdown from "../../cart-dropdown/cart-dropdown.component";
 import {
   ToolbarContainer,
@@ -21,7 +21,7 @@ import ToggleDrawer from "../toggle-drawer/toggle-drawer.component";
 import PersonalCardSetting from "../../personal-card-setting/personal-card-setting.component";
 const Toolbar = ({ showCartIcon , setToggleDrawer, cardPerson}) => {  
   const drawerContext = useContext(DrawerContext);  
-  const {showDrawer, setShowDrawer} = drawerContext; 
+  const { setShowDrawer} = drawerContext; 
 
   return (
     <ToolbarContainer>

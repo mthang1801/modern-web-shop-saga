@@ -1,4 +1,4 @@
-import orderedActionTypes from "./ordered.styles";
+import orderedActionTypes from "./ordered.types";
 const INITIAL_STATE = {
   orderedList: [],
   loading: false,
@@ -30,6 +30,5 @@ const orderedReducer = (state = INITIAL_STATE, action) => {
       return state;
   }
 };
-
 
 export default orderedReducer;

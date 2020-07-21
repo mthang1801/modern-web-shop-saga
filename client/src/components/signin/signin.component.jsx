@@ -4,7 +4,8 @@ import CustomInput from "../custom-input/custom-input.component";
 import CustomButton from "../custom-button/custom-button.component";
 import {withRouter} from "react-router-dom";
 import {FaGooglePlusG, FaFacebookF} from "react-icons/fa"
-import {signInWithGoogle, auth, signInWithFacebook} from "../../utils/firebase";
+import {googleSignInStart, facebookSignInStart, emailPasswordSignInStart} from "../../redux/user/user.actions";
+import {connect} from "react-redux"
 class SignIn extends React.Component{
   state = {
     email : "", 
@@ -17,12 +18,13 @@ class SignIn extends React.Component{
     this.setState({ [name] : value})
   }
 
-  onSubmitSigninForm = async e => {
+  onSubmitSigninForm = e => {
     e.preventDefault();
     const {email, password} = this.state ; 
+    const {emailPasswordSignInStart} = this.props
     this.setState({error : null })
     try {
-      await auth.signInWithEmailAndPassword(email, password);      
+      emailPasswordSignInStart(email, password);
     } catch (error) {
       this.setState({error : error.message})
     }
@@ -30,7 +32,7 @@ class SignIn extends React.Component{
 
   render(){    
     const {email, password, error} = this.state;   
-    const {authPath}  = this.props;   
+    const {authPath, googleSignInStart, facebookSignInStart}  = this.props;   
     return (
       <CustomFormContainer onSubmit={this.onSubmitSigninForm}>
         <FormHeader>
@@ -39,8 +41,8 @@ class SignIn extends React.Component{
         </FormHeader>
         {error &&  <ErrorMessage>{error}</ErrorMessage>}
         <FlashForm>
-          <CustomButton type="button" icon={<FaGooglePlusG/>} size="small"  color="white" bgColor="#EA4335" variant="contained" onClick={signInWithGoogle} positionIcon="after">Sign In</CustomButton>     
-          <CustomButton type="button" icon={<FaFacebookF/>} size="small"  color="white" bgColor="#4267B2" variant="contained" onClick={signInWithFacebook} positionIcon="after">Sign In</CustomButton>     
+          <CustomButton type="button" icon={<FaGooglePlusG/>} size="small"  color="white" bgColor="#EA4335" variant="contained" onClick={googleSignInStart} positionIcon="after">Sign In</CustomButton>     
+          <CustomButton type="button" icon={<FaFacebookF/>} size="small"  color="white" bgColor="#4267B2" variant="contained" onClick={facebookSignInStart} positionIcon="after">Sign In</CustomButton>     
         </FlashForm>
         <FormGroups>                        
           <CustomInput type="text" name="email" value={email} label="Email" onChange={this.handleChange} required/>
@@ -57,4 +59,9 @@ class SignIn extends React.Component{
 
 }
 
-export default withRouter(SignIn);
+const mapDispatchToProps = dispatch => ({
+  googleSignInStart : () => dispatch(googleSignInStart()),
+  facebookSignInStart : () => dispatch(facebookSignInStart()),
+  emailPasswordSignInStart : (email, password) => dispatch(emailPasswordSignInStart(email, password))
+})
+export default connect(null, mapDispatchToProps)(withRouter(SignIn));
